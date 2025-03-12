@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(#{clima.historico.titulo(${cidade.nome})}, ~{::div.content})}">
+<body>
+<div class="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 th:text="#{clima.historico.titulo(${cidade.nome})}">Histórico de Clima</h1>
+        <div>
+            <a th:href="@{/clima/consulta}" class="btn btn-secondary me-2">
+                <i class="bi bi-arrow-left"></i> Voltar
+            </a>
+            <form th:action="@{/clima/consultar}" method="post" class="d-inline">
+                <input type="hidden" name="cidadeId" th:value="${cidade.id}" />
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-arrow-clockwise"></i> <span th:text="#{clima.atualizar}">Atualizar</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="alert alert-info" th:if="${#lists.isEmpty(historico)}">
+        <p th:text="#{clima.sem.dados}">Sem dados climáticos disponíveis</p>
+    </div>
+
+    <div class="table-responsive" th:unless="${#lists.isEmpty(historico)}">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th th:text="#{clima.data.consulta}">Data da Consulta</th>
+                <th th:text="#{clima.temperatura}">Temperatura (°C)</th>
+                <th th:text="#{clima.vento}">Velocidade do Vento (km/h)</th>
+                <th th:text="#{clima.precipitacao}">Precipitação (mm)</th>
+                <th th:text="#{clima.condicao}">Condição Climática</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="clima : ${historico}">
+                <td th:text="${#temporals.format(clima.dataConsulta, 'dd/MM/yyyy HH:mm')}">01/01/2023 12:00</td>
+                <td th:text="${#numbers.formatDecimal(clima.temperatura, 1, 1)} + ' °C'">25.0 °C</td>
+                <td th:text="${#numbers.formatDecimal(clima.velocidadeVento, 1, 1)} + ' km/h'">10.5 km/h</td>
+                <td th:text="${#numbers.formatDecimal(clima.precipitacao, 1, 1)} + ' mm'">0.5 mm</td>
+                <td th:text="${clima.condicaoClimatica}">Céu limpo</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

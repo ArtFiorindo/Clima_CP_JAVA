@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(#{clima.title}, ~{::div.content})}">
+<body>
+<div class="content">
+    <h1 th:text="#{clima.title}">Consulta de Clima</h1>
+
+    <div class="alert alert-warning" th:if="${#lists.isEmpty(cidades)}">
+        <p th:text="#{erro.cidade.nao.encontrada}">Nenhuma cidade cadastrada</p>
+    </div>
+
+    <div th:unless="${#lists.isEmpty(cidades)}">
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0" th:text="#{clima.consultar}">Consultar Clima</h5>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/clima/consultar}" method="post" class="d-flex align-items-end">
+                            <div class="form-group flex-grow-1 me-2">
+                                <label for="cidadeId" th:text="#{clima.selecione.cidade}">Selecione uma cidade</label>
+                                <select id="cidadeId" name="cidadeId" class="form-select" required>
+                                    <option value="">-- Selecione --</option>
+                                    <option th:each="cidade : ${cidades}"
+                                            th:value="${cidade.id}"
+                                            th:text="${cidade.nome}"
+                                            th:selected="${cidadeId != null && cidadeId == cidade.id}">
+                                        São Paulo
+                                    </option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary" th:text="#{clima.consultar}">Consultar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="mb-3" th:text="#{clima.title}">Dados Climáticos</h2>
+
+        <div class="row">
+            <div class="col-md-6 mb-4" th:each="cidade : ${cidades}">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0" th:text="${cidade.nome}">São Paulo</h5>
+                        <div>
+                            <form th:action="@{/clima/consultar}" method="post" style="display: inline">
+                                <input type="hidden" name="cidadeId" th:value="${cidade.id}" />
+                                <button type="submit" class="btn btn-sm btn-primary">
+                                    <i class="bi bi-arrow-clockwise"></i> <span th:text="#{clima.atualizar}">Atualizar</span>
+                                </button>
+                            </form>
+                            <a th:href="@{/clima/historico/{id}(id=${cidade.id})}" class="btn btn-sm btn-info text-white">
+                                <i class="bi bi-clock-history"></i> <span th:text="#{clima.historico}">Histórico</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${ultimasConsultas.containsKey(cidade.id)}" class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="card bg-light">
+                                    <div class="card-body text-center">
+                                        <h3 class="text-primary" th:text="${#numbers.formatDecimal(ultimasConsultas.get(cidade.id).temperatura, 1, 1)} + ' °C'">25.0 °C</h3>
+                                        <p class="mb-0" th:text="#{clima.temperatura}">Temperatura</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card bg-light">
+                                    <div class="card-body text-center">
+                                        <h3 class="text-primary" th:text="${#numbers.formatDecimal(ultimasConsultas.get(cidade.id).velocidadeVento, 1, 1)} + ' km/h'">10.5 km/h</h3>
+                                        <p class="mb-0" th:text="#{clima.vento}">Velocidade do Vento</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card bg-light">
+                                    <div class="card-body text-center">
+                                        <h3 class="text-primary" th:text="${ultimasConsultas.get(cidade.id).condicaoClimatica}">Céu limpo</h3>
+                                        <p class="mb-0" th:text="#{clima.condicao}">Condição Climática</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="card bg-light">
+                                    <div class="card-body text-center">
+                                        <h3 class="text-primary" th:text="${#numbers.formatDecimal(ultimasConsultas.get(cidade.id).precipitacao, 1, 1)} + ' mm'">0.5 mm</h3>
+                                        <p class="mb-0" th:text="#{clima.precipitacao}">Precipitação</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <p class="text-muted text-center">
+                                    <small th:text="#{clima.data.consulta} + ': ' + ${#temporals.format(ultimasConsultas.get(cidade.id).dataConsulta, 'dd/MM/yyyy HH:mm')}">
+                                        Atualizado em: 01/01/2023 12:00
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                        <div th:unless="${ultimasConsultas.containsKey(cidade.id)}" class="text-center py-4">
+                            <p th:text="#{clima.sem.dados}">Sem dados climáticos disponíveis</p>
+                            <form th:action="@{/clima/consultar}" method="post">
+                                <input type="hidden" name="cidadeId" th:value="${cidade.id}" />
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-arrow-clockwise"></i> <span th:text="#{clima.consultar}">Consultar Clima</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

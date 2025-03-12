@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(#{error.403.title}, ~{::div})}">
+<body>
+<div class="container content py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="error-template">
+                <h1 class="display-1">403</h1>
+                <h2 th:text="#{error.403.heading}">Acesso Negado</h2>
+                <div class="error-details my-4">
+                    <p th:text="#{error.403.message}">Desculpe, você não tem permissão para acessar esta página.</p>
+                </div>
+                <div class="error-actions">
+                    <a th:href="@{/home}" class="btn btn-primary btn-lg">
+                        <i class="bi bi-house"></i>
+                        <span th:text="#{error.back.home}">Voltar para o Início</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

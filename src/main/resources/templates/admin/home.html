@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{home.admin.title}">Home Admin</title>
+</head>
+<body>
+<section>
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <h1 th:text="#{home.admin.welcome}  + ${#authentication.name} + '!'">Bem-vindo, !</h1>
+
+            <div class="mt-5">
+                <a th:href="@{/admin/cidades/novo}" class="btn btn-primary btn-lg" th:text="#{home.admin.button}">Adicionar Nova Cidade</a>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

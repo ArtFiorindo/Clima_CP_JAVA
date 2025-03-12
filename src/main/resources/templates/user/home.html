@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{home.usuario.title}">Home - Usuário</title>
+</head>
+<body>
+<section class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h3 class="card-title mb-0" th:text="#{home.usuario.welcome} + ', ' + ${nomeUsuario} + '!'">Bem-vindo, Usuário!</h3>
+                </div>
+                <div class="card-body">
+                    <p th:text="#{home.usuario.intro1}">Aqui você pode consultar o clima de várias cidades em tempo real.</p>
+                    <p th:text="#{home.usuario.intro2}">Explore as informações mais recentes sobre o clima para planejar suas atividades!</p>
+
+                    <!-- Botão central -->
+                    <div class="d-flex justify-content-center mt-4">
+                        <a th:href="@{/clima/consulta}" class="btn btn-primary" th:text="#{home.usuario.button}">Ver Clima</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
