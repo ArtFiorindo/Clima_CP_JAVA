@@ -141,11 +141,17 @@ clima-app/
 │   │   │               │   ├── I18nConfig.java
 │   │   │               │   └── SecurityConfig.java
 │   │   │               ├── controller/
-│   │   │               │   ├── CidadeController.java
+│   │   │               │   ├── AdminController.java
+|   |   |               |   ├── CidadeController.java
 │   │   │               │   ├── ClimaController.java
-│   │   │               │   └── LoginController.java
+│   │   │               │   ├── ErrorController.java
+│   │   │               │   ├── LoginController.java
+│   │   │               │   └── UserController.java
 │   │   │               ├── dto/
 │   │   │               │   └── OpenMeteoResponse.java
+│   │   │               ├── exception/
+│   │   │               │   ├── ClimaConsultaException.java
+│   │   │               │   └── GlobalExceptionHandler.java
 │   │   │               ├── model/
 │   │   │               │   ├── Cidade.java
 │   │   │               │   └── Clima.java
@@ -161,6 +167,8 @@ clima-app/
 │   │   │   ├── messages_pt_BR.properties
 │   │   │   ├── static/
 │   │   │   └── templates/
+│   │   │       ├── admin/
+│   │   │       │   └── home.html
 │   │   │       ├── cidade/
 │   │   │       │   ├── form.html
 │   │   │       │   └── lista.html
@@ -169,10 +177,12 @@ clima-app/
 │   │   │       │   └── historico.html
 │   │   │       ├── error/
 │   │   │       │   ├── 403.html
-│   │   │       │   └── 404.html
-│   │   │       ├── fragments/
-│   │   │       │   └── layout.html
-│   │   │       ├── home.html
+│   │   │       │   ├── 404.html
+│   │   │       │   ├── 500.html
+│   │   │       │   └── general.html
+│   │   │       ├── user/
+│   │   │       │   └── home.html
+│   │   │       ├── layout.html
 │   │   │       └── login.html
 │   └── test/
 │       └── java/
